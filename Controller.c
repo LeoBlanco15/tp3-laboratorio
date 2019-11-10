@@ -77,7 +77,9 @@ int controller_loadFromText(char* path , LinkedList* pArrayListEmployee)
 int controller_loadFromBinary(char* path , LinkedList* pArrayListEmployee)
 {
 	FILE *pFile;
-	Employee* new = employee_new();
+	Employee* new;
+	Employee aux;
+	int r;
 
 
 		pFile = fopen(path, "rb");
@@ -88,8 +90,14 @@ int controller_loadFromBinary(char* path , LinkedList* pArrayListEmployee)
 		}
 		while(!feof(pFile))
 			{
-			fread(&new,sizeof(Employee),1,pFile);
-			ll_add(pArrayListEmployee,new);
+			r= fread(&aux,sizeof(Employee),1,pFile);
+			if(r==1)
+			{
+				printf("%d \n", aux.id);
+				new = employee_new();
+				*new = aux;
+				ll_add(pArrayListEmployee,new);
+			}
 			}
 		fclose(pFile);
     return 1;
@@ -323,7 +331,9 @@ int controller_saveAsBinary(char* path , LinkedList* pArrayListEmployee)
 	FILE* pFile;
 	Node* aux;
 	Employee* new;
+	Employee auxE;
 	int i=0;
+	int r;
 	new = (Employee*)malloc(sizeof(Employee));
 	if(new==NULL)
 		exit(-3);
@@ -334,7 +344,10 @@ int controller_saveAsBinary(char* path , LinkedList* pArrayListEmployee)
 		for(i=0;i<ll_len(pArrayListEmployee);i++)
 		{
 			new = aux->pElement;
-			fwrite(&new,sizeof(Employee), 1, pFile);
+			auxE = *new;
+			r = fwrite(&auxE,sizeof(Employee), 1, pFile);
+			if(r<1)
+				printf("\n no se pudo leer el archivo");
 			aux = aux->pNextNode;
 		}
 	}

@@ -44,7 +44,7 @@ int main()
                 controller_loadFromText("data.csv",lista);
                 break;
             case 2:
-            	controller_loadFromBinary("data3.bin" , lista);
+            	controller_loadFromBinary("datab.csv" , lista);
             	break;
             case 3:
             	controller_addEmployee(lista);
@@ -65,7 +65,7 @@ int main()
             	controller_saveAsText("data2.csv",lista);
             	break;
             case 9:
-            	controller_saveAsBinary("data3.bin",lista);
+            	controller_saveAsBinary("datab.csv",lista);
         }
     }while(option != 10);
     return 0;
